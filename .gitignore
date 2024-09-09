@@ -1,2 +1,6 @@
 PlantVillage-Dataset/
-PlantVillage-Dataset/
+venv/
+*.pyc
+__pycache__/
+test/initial_testing/network/yolov3.weights
+test/initial_testing/network/yolov3-tiny.weights
