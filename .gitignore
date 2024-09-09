@@ -1,2 +1,4 @@
 PlantVillage-Dataset/
-PlantVillage-Dataset/
+venv/
+*.pyc
+__pycache__/
