@@ -6,6 +6,7 @@ Projet immersif 2024
 ## Bases de données
 1. [Feuilles diverses](https://ent.normandie-univ.fr/filex/get?k=xB70IPc7p5GALtNJb)
 2. [Fraises](https://ent.normandie-univ.fr/filex/get?k=FZwAoFGLY1bINNxVXg9)
+3. [Weights du CNN](https://pjreddie.com/media/files/yolov3.weights)
 
 ## Divers
 - [scikit-learn](https://scikit-learn.org/stable/)
@@ -14,3 +15,5 @@ Projet immersif 2024
 - [Page GitHub de YOLO v.9](https://github.com/WongKinYiu/yolov9)
 - [Intégrer YOLO v.8 sur Jetson nano](https://docs.ultralytics.com/fr/guides/nvidia-jetson/)
 - [Cours traitement images](https://foad.ensicaen.fr/course/view.php?id=482)
+
+
