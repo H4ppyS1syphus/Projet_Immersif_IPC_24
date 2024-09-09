@@ -6,64 +6,63 @@ import time
 img = cv.imread('/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/rue.png')
 # Load names of classes
 classes = open('/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/coco.names').read().strip().split('\n')
-print(classes)
 np.random.seed(42)
 colors = np.random.randint(0, 255, size=(len(classes), 3), dtype='uint8')
 
 # Load YOLOv3-tiny model
-net = cv.dnn.readNetFromDarknet('/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/network/yolov3-tiny.cfg', '/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/network/yolov3-tiny.weights')
+net = cv.dnn.readNetFromDarknet('/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/network/yolov3.cfg', '/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/network/yolov3.weights')
 net.setPreferableBackend(cv.dnn.DNN_BACKEND_OPENCV)
 
 # Determine the output layer
 ln = net.getLayerNames()
+ln = [ln[i - 1] for i in net.getUnconnectedOutLayers()]# Prepare the image blob
 
-# Construct a blob from the image
 blob = cv.dnn.blobFromImage(img, 1/255.0, (416, 416), swapRB=True, crop=False)
 net.setInput(blob)
 
+# Perform the forward pass
 t0 = time.time()
 outputs = net.forward(ln)
 t = time.time()
 print('Forward propagation time:', t-t0)
 
-# Prepare for bounding box drawing
+# Process the outputs
 boxes = []
 confidences = []
 classIDs = []
 h, w = img.shape[:2]
 
 for output in outputs:
-    print("Output shape:", output.shape)  # Debugging output shapes
     for detection in output:
-        scores = detection[5:]
-        print(scores)
+        # Extract the scores, followed by the class probability
+        scores = detection[5:]  # Starting from index 5 to skip box coordinates and objectness score
         classID = np.argmax(scores)
         confidence = scores[classID]
+
         if confidence > 0.5:
-            box = detection[:4] * np.array([w, h, w, h])
-            (centerX, centerY, width, height) = box.astype("int")
-            x = int(centerX - (width / 2))
-            y = int(centerY - (height / 2))
-            box = [x, y, int(width), int(height)]
-            boxes.append(box)
+            box = detection[0:4] * np.array([w, h, w, h])
+            centerX, centerY, width, height = box.astype('int')
+            x = int(centerX - width / 2)
+            y = int(centerY - height / 2)
+
+            # Populate our lists for NMS
+            boxes.append([x, y, int(width), int(height)])
             confidences.append(float(confidence))
             classIDs.append(classID)
 
-# Apply Non-Max Suppression
+# Non-max suppression
 indices = cv.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
+
+# Draw the bounding boxes
 if len(indices) > 0:
     for i in indices.flatten():
-        (x, y) = (boxes[i][0], boxes[i][1])
-        (w, h) = (boxes[i][2], boxes[i][3])
+        x, y, w, h = boxes[i]
         color = [int(c) for c in colors[classIDs[i]]]
         cv.rectangle(img, (x, y), (x + w, y + h), color, 2)
-        text = "{}: {:.4f}".format(classes[classIDs[i]], confidences[i])
-        cv.putText(img, text, (x, y - 5), cv.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
-
-# Specify the path and filename where you want to save the image
-output_image_path = 'result_image.png'
+        label = f"{classes[classIDs[i]]}: {confidences[i]:.2f}"
+        cv.putText(img, label, (x, y - 5), cv.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
 
 # Save the image
-cv.imwrite(output_image_path, img)
+cv.imwrite('detected_output.jpg', img)
+print("Image saved as 'detected_output.jpg'")
 
-print("Image saved to", output_image_path)
