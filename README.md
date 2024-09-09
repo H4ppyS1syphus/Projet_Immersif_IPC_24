@@ -7,6 +7,7 @@ Projet immersif 2024
 1. [Feuilles diverses](https://ent.normandie-univ.fr/filex/get?k=xB70IPc7p5GALtNJb)
 2. [Fraises](https://ent.normandie-univ.fr/filex/get?k=FZwAoFGLY1bINNxVXg9)
 3. [Weights du CNN](https://pjreddie.com/media/files/yolov3.weights)
+4. [Weights du petit CNN](https://pjreddie.com/media/files/yolov3-tiny.weights)
 
 ## Divers
 - [scikit-learn](https://scikit-learn.org/stable/)
