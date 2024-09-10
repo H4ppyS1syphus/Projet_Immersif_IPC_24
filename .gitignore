@@ -2,3 +2,5 @@ PlantVillage-Dataset/
 venv/
 *.pyc
 __pycache__/
+database/segmented/
+database/train/
