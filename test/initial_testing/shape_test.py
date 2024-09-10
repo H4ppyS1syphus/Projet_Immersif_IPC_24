@@ -3,14 +3,14 @@ import numpy as np
 import time
 
 # Load an image
-img = cv.imread('/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/rue.png')
+img = cv.imread('/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/laitues.png')
 # Load names of classes
 classes = open('/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/coco.names').read().strip().split('\n')
 np.random.seed(42)
 colors = np.random.randint(0, 255, size=(len(classes), 3), dtype='uint8')
 
 # Load YOLOv3-tiny model
-net = cv.dnn.readNetFromDarknet('/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/network/yolov3.cfg', '/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/network/yolov3.weights')
+net = cv.dnn.readNetFromDarknet('/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/network/yolov3-tiny.cfg', '/home/fred/Documents/projet_immersif/Projet_Immersif_IPC_24/test/initial_testing/network/yolov3-tiny.weights')
 net.setPreferableBackend(cv.dnn.DNN_BACKEND_OPENCV)
 
 # Determine the output layer
