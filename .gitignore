@@ -4,3 +4,4 @@ venv/
 __pycache__/
 test/initial_testing/network/yolov3.weights
 test/initial_testing/network/yolov3-tiny.weights
+test/initial_testing/data
