@@ -28,4 +28,4 @@ def creerDictionnaire(chemin_csv, chemin_images):
 # EXEMPLE
 # creerDictionnaire(r"C:\Users\bapti\Desktop\PlantDoc-Object-Detection-Dataset-master\test_labels.csv", r"C:\Users\bapti\Desktop\PlantDoc-Object-Detection-Dataset-master\TEST")
 
-    
+
