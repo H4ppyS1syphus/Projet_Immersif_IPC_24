@@ -4,21 +4,7 @@ import os
 
 
 def normalize_image(image):
-    """
-    Normalise l'image pour qu'elle ait des valeurs dans l'intervalle [0, 255] et la convertit en uint8.
-    
-    Paramètres :
-        image : np.array
-            L'image d'entrée avec des valeurs dans l'intervalle [-1, 1].
-    
-    Retour :
-        np.array
-            L'image normalisée avec des valeurs dans l'intervalle [0, 255] et de type uint8.
-    """
-    # Normaliser l'image pour qu'elle ait des valeurs dans l'intervalle [0, 1]
     normalized_image = (image - np.min(image)) / (np.max(image) - np.min(image))
-    
-    # Étendre les valeurs pour qu'elles soient dans l'intervalle [0, 255] et convertir en uint8
     return np.uint8(normalized_image * 255)
 
 def redimImage640_640(dossier_images, dossier_images_redim):
