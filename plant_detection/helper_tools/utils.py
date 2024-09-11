@@ -288,9 +288,11 @@ def init_distributed_mode(args):
 def get_transform(train):
     transforms = []
     if train:
-        transforms.append(T.RandomHorizontalFlip(0.5))  # Add any other augmentations you want
-
-    transforms.append(T.ConvertImageDtype(torch.float))  # Converts from uint8 to float32 and scales to [0, 1]
+        transforms.append(T.RandomHorizontalFlip(0.5))
+    
+    # Add ToTensor to convert PIL images to tensor format
+    transforms.append(T.ToTensor())
+    transforms.append(T.ConvertImageDtype(torch.float))  # Convert to float and scale to [0, 1]
 
     return T.Compose(transforms)
 
