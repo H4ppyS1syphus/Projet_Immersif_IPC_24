@@ -2,6 +2,13 @@
 
 Projet immersif 2024
 
+## Setup
+
+Before running the project, ensure the dataset is downloaded by running:
+
+```bash
+python download_dataset.py
+```
 
 ## Bases de données
 1. [Feuilles diverses](https://ent.normandie-univ.fr/filex/get?k=xB70IPc7p5GALtNJb)
