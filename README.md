@@ -6,10 +6,6 @@ Bienvenue dans le dépôt du **Projet Immersif 2024**, où nous exploitons l'app
 
 ![Septoria Leaf Spot](images/plant_detection.png)
 
-<p align="center">
-  <img src='images/image.png' width="350" title="hover text">
-</p>
-
 ---
 
 ## 🛠️ Instructions d'installation
