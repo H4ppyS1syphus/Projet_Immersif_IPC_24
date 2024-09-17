@@ -1,4 +1,3 @@
-readme_content = """
 # 🌿 Projet Immersif 2024 : Détection des Plantes et Identification des Maladies
 
 Bienvenue dans le dépôt du **Projet Immersif 2024**, où nous exploitons l'apprentissage automatique et profond pour la détection des plantes et le diagnostic des maladies. Ce projet couvre divers aspects du traitement d'images et de l'IA, avec un focus sur l'analyse de la santé des plantes.
@@ -6,6 +5,10 @@ Bienvenue dans le dépôt du **Projet Immersif 2024**, où nous exploitons l'app
 ### Exemple d'image de détection de la maladie "Septoria Leaf Spot" :
 
 ![Septoria Leaf Spot](images/image.png)
+
+<p align="center">
+  <img src='images/image.png' width="350" title="hover text">
+</p>
 
 ---
 
@@ -15,9 +18,9 @@ Bienvenue dans le dépôt du **Projet Immersif 2024**, où nous exploitons l'app
 
 Pour commencer, clonez ce dépôt en utilisant la commande suivante :
 
-\`\`\`bash
+```bash
 git clone https://github.com/H4ppyS1syphus/Projet_Immersif_IPC_24.git
-\`\`\`
+```
 
 ### 2. Configurer l'environnement Python
 
@@ -27,31 +30,31 @@ Ce projet utilise Python ainsi que des dépendances spécifiques pour le traitem
 
 Dans le répertoire du projet, exécutez la commande suivante pour créer un environnement virtuel :
 
-\`\`\`bash
+```bash
 python -m venv .venv
-\`\`\`
+```
 
 #### b. Activer l'environnement virtuel
 
 - **Sur Windows** :
 
-\`\`\`bash
+```bash
 .venv\\Scripts\\activate
-\`\`\`
+```
 
 - **Sur macOS/Linux** :
 
-\`\`\`bash
+```bash
 source .venv/bin/activate
-\`\`\`
+```
 
 #### c. Installer les dépendances
 
 Une fois l'environnement activé, installez les dépendances nécessaires avec :
 
-\`\`\`bash
+```bash
 pip install -r requirements.txt
-\`\`\`
+```
 
 ---
 
@@ -61,9 +64,9 @@ pip install -r requirements.txt
 
 Le script suivant permet de détecter les plantes dans une image. Exécutez la commande suivante :
 
-\`\`\`bash
+```bash
 python plant_detection/detect.py --image <chemin_vers_image>
-\`\`\`
+```
 
 Remplacez \`<chemin_vers_image>\` par le chemin vers l'image à analyser.
 
@@ -71,9 +74,9 @@ Remplacez \`<chemin_vers_image>\` par le chemin vers l'image à analyser.
 
 Pour détecter les maladies sur les plantes identifiées, utilisez le script suivant :
 
-\`\`\`bash
+```bash
 python disease_detection/detect_disease.py --image <chemin_vers_image>
-\`\`\`
+```
 
 Cela analysera l'image et renverra des informations sur les maladies potentielles affectant la plante.
 
