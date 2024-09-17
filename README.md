@@ -93,7 +93,6 @@ Cela analysera l'image et renverra des informations sur les maladies potentielle
   - Cours de traitement d'images
 
 ---
----
 
 ## 📊 Évaluation du Modèle de Détection des Maladies
 
@@ -110,12 +109,10 @@ Le modèle de détection des maladies a été évalué sur un jeu de données de
 
 La matrice de confusion suivante présente la répartition des prédictions correctes et incorrectes pour les plantes saines et malades :
 
-\[
-\begin{bmatrix}
-964  & 70  \\
-925  & 4683
-\end{bmatrix}
-\]
+|            | Prédit Sain | Prédit Malade |
+|------------|-------------|---------------|
+| **Vrai Sain**  | 964         | 70            |
+| **Vrai Malade**| 925         | 4683          |
 
 - **964** : Plantes saines correctement identifiées (True Negatives)
 - **70** : Plantes saines incorrectement identifiées comme malades (False Positives)
