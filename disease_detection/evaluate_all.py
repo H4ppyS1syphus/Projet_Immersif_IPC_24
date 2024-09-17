@@ -9,7 +9,7 @@ from PIL import Image
 import numpy as np
 
 # 1. Define the data directory and transformations
-data_dir = "/PlantVillage-Dataset/PlantVillage-Dataset/raw/segmented/"  # Root directory containing 'test' folder
+data_dir = "./PlantVillage-Dataset/PlantVillage-Dataset/raw/segmented/"  # Root directory containing 'test' folder
 test_dir = os.path.join(data_dir, 'all')
 
 # Ensure the test directory exists

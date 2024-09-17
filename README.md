@@ -93,6 +93,36 @@ Cela analysera l'image et renverra des informations sur les maladies potentielle
   - Cours de traitement d'images
 
 ---
+---
+
+## 📊 Évaluation du Modèle de Détection des Maladies
+
+Le modèle de détection des maladies a été évalué sur un jeu de données de test. Voici les métriques de performance obtenues :
+
+### Métriques d'évaluation sur le jeu de données de test :
+
+- **Accuracy** (Précision globale) : 0.8502
+- **Precision** (Précision pour les plantes malades) : 0.9853
+- **Recall** (Rappel des plantes malades) : 0.8351
+- **F1 Score** : 0.9040
+
+### Matrice de Confusion :
+
+La matrice de confusion suivante présente la répartition des prédictions correctes et incorrectes pour les plantes saines et malades :
+
+\[
+\begin{bmatrix}
+964  & 70  \\
+925  & 4683
+\end{bmatrix}
+\]
+
+- **964** : Plantes saines correctement identifiées (True Negatives)
+- **70** : Plantes saines incorrectement identifiées comme malades (False Positives)
+- **925** : Plantes malades incorrectement identifiées comme saines (False Negatives)
+- **4683** : Plantes malades correctement identifiées (True Positives)
+
+---
 
 ## 💻 Contribution
 
