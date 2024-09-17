@@ -1,0 +1,2 @@
+*.pth filter=lfs diff=lfs merge=lfs -text
+plant_detection/resnet_finetuned_plantdoc_new_20.pth filter=lfs diff=lfs merge=lfs -text
