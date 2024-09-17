@@ -2,6 +2,8 @@
 
 Bienvenue dans le dépôt du **Projet Immersif 2024**, où nous exploitons l'apprentissage automatique et profond pour la détection des plantes et le diagnostic des maladies. Ce projet couvre divers aspects du traitement d'images et de l'IA, avec un focus sur l'analyse de la santé des plantes.
 
+[Exemple](images/plant_detection.png)
+
 ---
 
 ## 🛠️ Instructions d'installation
@@ -99,4 +101,3 @@ Les contributions sont les bienvenues ! N'hésitez pas à ouvrir des pull requ
 ## 📝 Licence
 
 Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-"""
