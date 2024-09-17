@@ -21,21 +21,30 @@ class PlantDocDataset(torch.utils.data.Dataset):
         img_name = self.imgs[idx]
         img_path = os.path.join(self.root, img_name)
         
-        # Load image using PIL to handle RGBA
-        img = Image.open(img_path).convert("RGB")  # Ensure image is in RGB format
+        # Load image using read_image() which returns a tensor
+        try:
+            img = read_image(img_path)  # Already returns a tensor
+            
+            if img.shape[0] == 4:  # RGBA -> RGB
+                img = img[:3, :, :]  # Discard the alpha channel
+            elif img.shape[0] == 1:  # Grayscale -> RGB
+                img = img.expand(3, -1, -1)  # Repeat the single channel to convert to RGB
 
+        except:
+            return None
+
+        # Apply transformations if available
         if self.transforms:
             img = self.transforms(img)
 
-        # Convert image to tensor if needed (since transforms should handle it)
-        img = T.ToTensor()(img)  # Convert PIL image to tensor
-        
-        # Read the target (bounding box) data
+        # Extract bounding boxes and labels
         records = self.csv_data[self.csv_data["filename"] == img_name]
         boxes = records[["xmin", "ymin", "xmax", "ymax"]].values
         boxes = torch.as_tensor(boxes, dtype=torch.float32)
 
+        # Assume all labels are 1 (for plant disease), modify if you have multiple classes
         labels = torch.ones((len(boxes),), dtype=torch.int64)
+
         image_id = torch.tensor([idx])
         area = (boxes[:, 3] - boxes[:, 1]) * (boxes[:, 2] - boxes[:, 0])
         iscrowd = torch.zeros((len(boxes),), dtype=torch.int64)
@@ -52,6 +61,7 @@ class PlantDocDataset(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.imgs)
+
 
 def creerDictionnaire(chemin_csv, chemin_images):
 

@@ -5,12 +5,16 @@ import time
 from collections import defaultdict, deque
 from torchvision import transforms as T
 
+import math
 import torch
 import torch.distributed as dist
 
 import torchvision
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
+
+
+from torchvision.ops import box_iou
 
 class SmoothedValue:
     """Track a series of values and provide access to smoothed values over a
@@ -205,7 +209,10 @@ class MetricLogger:
 
 
 def collate_fn(batch):
+    # Filter out None values from the batch
+    batch = [b for b in batch if b is not None]
     return tuple(zip(*batch))
+
 
 
 def mkdir(path):
@@ -291,7 +298,6 @@ def get_transform(train):
         transforms.append(T.RandomHorizontalFlip(0.5))
     
     # Add ToTensor to convert PIL images to tensor format
-    transforms.append(T.ToTensor())
     transforms.append(T.ConvertImageDtype(torch.float))  # Convert to float and scale to [0, 1]
 
     return T.Compose(transforms)
@@ -306,3 +312,73 @@ def get_model_instance_segmentation(num_classes):
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
     return model
+
+
+
+def calculate_iou(pred_boxes, true_boxes):
+    """Calculate the IoU between two sets of boxes using torchvision's box_iou."""
+    return box_iou(pred_boxes, true_boxes)
+
+
+def evaluate(model, data_loader, device, print_freq=10, iou_threshold=0.5):
+    model.eval()  # Set the model to evaluation mode
+    metric_logger = MetricLogger(delimiter="  ")
+    header = "Test:"
+
+    total_correct = 0
+    total_labels = 0
+    total_true_positives = 0
+    total_false_positives = 0
+    total_iou = 0
+    total_boxes = 0
+
+    with torch.no_grad():  # Disable gradient calculations for evaluation
+        for images, targets in metric_logger.log_every(data_loader, print_freq, header):
+            images = list(image.to(device) for image in images)
+            targets = [{k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in t.items()} for t in targets]
+
+            # Forward pass to get predictions (no loss in evaluation mode)
+            outputs = model(images)
+
+            # Loop over each image in the batch and collect metrics
+            for i, output in enumerate(outputs):
+                pred_boxes = output["boxes"]
+                pred_labels = output["labels"]
+                true_boxes = targets[i]["boxes"]
+                true_labels = targets[i]["labels"]
+
+                # IoU calculation using box_iou
+                if len(pred_boxes) > 0 and len(true_boxes) > 0:
+                    iou_matrix = calculate_iou(pred_boxes, true_boxes)
+
+                    # For each true box, find the predicted box with the highest IoU
+                    for j in range(len(true_boxes)):
+                        iou_for_true_box = iou_matrix[:, j]  # IoU between this true box and all predicted boxes
+                        best_iou_idx = iou_for_true_box.argmax()  # Index of the predicted box with the highest IoU
+                        best_iou = iou_for_true_box[best_iou_idx]
+
+                        if best_iou >= iou_threshold:
+                            # True positive if IoU >= threshold
+                            if pred_labels[best_iou_idx] == true_labels[j]:
+                                total_true_positives += 1
+                            else:
+                                total_false_positives += 1
+
+                    # Calculate IoU for reporting
+                    avg_iou_for_image = iou_matrix.mean().item() if iou_matrix.numel() > 0 else 0
+                    total_iou += avg_iou_for_image
+                    total_boxes += 1
+
+                # Accuracy calculation (requires pairing predicted and true labels)
+                total_correct += (pred_labels[: len(true_labels)] == true_labels).sum().item()  # Limit to the smaller size
+                total_labels += len(true_labels)
+
+    # Calculate final metrics
+    accuracy = total_correct / total_labels if total_labels > 0 else 0
+    precision = total_true_positives / (total_true_positives + total_false_positives) if (total_true_positives + total_false_positives) > 0 else 0
+    avg_iou = total_iou / total_boxes if total_boxes > 0 else 0
+
+    print(f"Evaluation completed. Accuracy: {accuracy:.4f}, Precision: {precision:.4f}, Average IoU: {avg_iou:.4f}")
+
+    return accuracy, precision, avg_iou
+
