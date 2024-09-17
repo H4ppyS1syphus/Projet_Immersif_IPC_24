@@ -1,8 +1,11 @@
+readme_content = """
 # 🌿 Projet Immersif 2024 : Détection des Plantes et Identification des Maladies
 
 Bienvenue dans le dépôt du **Projet Immersif 2024**, où nous exploitons l'apprentissage automatique et profond pour la détection des plantes et le diagnostic des maladies. Ce projet couvre divers aspects du traitement d'images et de l'IA, avec un focus sur l'analyse de la santé des plantes.
 
-[Exemple](images/plant_detection.png)
+### Exemple d'image de détection de la maladie "Septoria Leaf Spot" :
+
+![Septoria Leaf Spot](images/image.png)
 
 ---
 
@@ -30,13 +33,13 @@ python -m venv .venv
 
 #### b. Activer l'environnement virtuel
 
-- Sur **Windows** :
+- **Sur Windows** :
 
 \`\`\`bash
 .venv\\Scripts\\activate
 \`\`\`
 
-- Sur **macOS/Linux** :
+- **Sur macOS/Linux** :
 
 \`\`\`bash
 source .venv/bin/activate
