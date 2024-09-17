@@ -3,7 +3,7 @@ import torch
 import argparse
 from torchvision import transforms as T
 from PIL import Image, ImageDraw
-import helper_tools.utils as utils
+import plant_detection.helper_tools.utils as utils
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 
 # Define class names based on the PlantDoc dataset
@@ -91,8 +91,8 @@ def apply_nms_and_filter(predictions, iou_threshold=0.5, score_threshold=0.4):
 
 
 
-def main(image_path):
-    model_path = "resnet_finetuned_plantdoc_new_20.pth"  # Path to the saved model
+def detect_plant(image_path):
+    model_path = "./plant_detection/resnet_finetuned_plantdoc_new_20.pth"  # Path to the saved model
 
     # Load model and set to eval mode
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -121,6 +121,7 @@ def main(image_path):
     save_path = f"output_{os.path.basename(image_path)}"
     processed_img.save(save_path)
     print(f"Processed image saved as: {save_path}")
+    return (processed_img, predictions, class_names) 
 
 
 if __name__ == "__main__":
@@ -132,4 +133,4 @@ if __name__ == "__main__":
         print(f"Error: Image {args.image} does not exist.")
         exit(1)
 
-    main(args.image)
+    detect_plant(args.image)
