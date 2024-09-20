@@ -86,8 +86,6 @@ Cela analysera l'image et renverra des informations sur les maladies potentielle
 
 - **Divers**
   - scikit-learn
-  - Un article sur YOLO
-  - Un article sur YOLO v.9
   - [Page GitHub de YOLO v.9](https://github.com/ultralytics/yolov9)
   - Intégration de YOLO v.8 sur Jetson Nano
   - Cours de traitement d'images
